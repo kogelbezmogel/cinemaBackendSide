@@ -4,6 +4,7 @@ package com.cinema.controller;
 import com.cinema.model.Genre;
 import com.cinema.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,8 +32,9 @@ public class GenreController {
      * @return list of all genres in database
      */
     @GetMapping("/genre")
-    public List<Genre> getAllGenres() {
-        return genreService.findAll();
+    public ResponseEntity<List<Genre>> getAllGenres() {
+        List<Genre> genres = genreService.findAll();
+        return ResponseEntity.ok(genres);
     }
 
 }

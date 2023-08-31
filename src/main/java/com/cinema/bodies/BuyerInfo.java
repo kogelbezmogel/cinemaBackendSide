@@ -35,4 +35,13 @@ public class BuyerInfo {
     public void setMail(String mail) {
         this.mail = mail;
     }
+
+    @Override
+    public String toString() {
+        return "BuyerInfo{" +
+                "fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
+                ", mail='" + mail + '\'' +
+                '}';
+    }
 }

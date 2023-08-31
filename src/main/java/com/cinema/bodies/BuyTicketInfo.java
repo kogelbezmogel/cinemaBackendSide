@@ -54,4 +54,15 @@ public class BuyTicketInfo {
     public void setShow_id(Long show_id) {
         this.show_id = show_id;
     }
+
+    @Override
+    public String toString() {
+        return "BuyTicketInfo{" +
+                "sits_nums=" + sits_nums +
+                ", buyerInfo=" + buyerInfo +
+                ", userLogin='" + userLogin + '\'' +
+                ", room_id=" + room_id +
+                ", show_id=" + show_id +
+                '}';
+    }
 }

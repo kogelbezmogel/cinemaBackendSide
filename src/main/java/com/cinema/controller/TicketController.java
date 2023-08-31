@@ -4,6 +4,7 @@ import com.cinema.bodies.BuyTicketInfo;
 import com.cinema.model.Ticket;
 import com.cinema.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,8 +30,9 @@ public class TicketController {
      * @return List of all tickets in database
      */
     @GetMapping("/ticket")
-    public  List<Ticket> getAllTickets() {
-        return ticketService.findAll();
+    public ResponseEntity<List<Ticket>> getAllTickets() {
+        List<Ticket> tickets = ticketService.findAll();
+        return ResponseEntity.ok(tickets);
     }
 
 
@@ -40,7 +42,8 @@ public class TicketController {
      * @return true if ticket bought and false otherwise.
      */
     @PostMapping("/ticket/buy")
-    public Boolean setTicketsToShow(@RequestBody BuyTicketInfo request) {
-        return ticketService.setTicketsToShow( request );
+    public ResponseEntity<Boolean> setTicketsToShow(@RequestBody BuyTicketInfo request) {
+        Boolean success = ticketService.setTicketsToShow( request );
+        return ResponseEntity.ok(success);
     }
 }

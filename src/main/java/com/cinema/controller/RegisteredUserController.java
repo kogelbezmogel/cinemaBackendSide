@@ -63,9 +63,10 @@ public class RegisteredUserController {
      * @return User instance based on credentials in request.
      */
     @GetMapping("/info")
-    public RegisteredUser getRegisteredUser( HttpServletRequest request ) {
+    public ResponseEntity<RegisteredUser> getRegisteredUser( HttpServletRequest request ) {
         String jwtToken = WebUtils.getCookie(request, "jwt-token").getValue();
-        return registeredUserService.getUserInfo(jwtToken);
+        RegisteredUser user = registeredUserService.getUserInfo(jwtToken);
+        return ResponseEntity.ok(user);
     }
 
     /**
@@ -74,10 +75,10 @@ public class RegisteredUserController {
      * @return true after registration.
      */
     @PostMapping("/register")
-    public Boolean registerUser(@RequestBody RegistrationDataObject registrationUserData ) {
+    public ResponseEntity<Boolean> registerUser(@RequestBody RegistrationDataObject registrationUserData ) {
         registeredUserService.save(registrationUserData);
         System.out.println("UserData: " + registrationUserData.toString());
-        return true;
+        return ResponseEntity.ok(true);
     }
 
 

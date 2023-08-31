@@ -4,6 +4,7 @@ import com.cinema.model.Movie;
 import com.cinema.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -30,7 +31,10 @@ public class MovieController {
      * @return List of all movies in database
      */
     @GetMapping("/movie/all")
-    public List<Movie> getAllMovies() { return  movieService.findAll(); }
+    public ResponseEntity<List<Movie>> getAllMovies() {
+        List<Movie> movies = movieService.findAll();
+        return  ResponseEntity.ok(movies);
+    }
 
 
     /**
@@ -39,11 +43,12 @@ public class MovieController {
      * @return Return List of movies that are played between time range from start to end parameters.
      */
     @GetMapping("/movie/range")
-    public List<Movie> getMoviesByDate(
+    public ResponseEntity<List<Movie>> getMoviesByDate(
             @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
             @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
         System.out.println("Movie range request with range: " + start.toString() + " - " + end.toString());
-        return movieService.getMoviesByDate(start, end);
+        List<Movie> movies = movieService.getMoviesByDate(start, end);
+        return ResponseEntity.ok(movies);
     }
 
 }

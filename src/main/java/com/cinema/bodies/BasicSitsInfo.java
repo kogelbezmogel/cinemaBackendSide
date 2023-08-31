@@ -30,4 +30,12 @@ public class BasicSitsInfo {
     public void setType(String type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "BasicSitsInfo{" +
+                "order_num=" + order_num +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }

@@ -29,4 +29,12 @@ public class BasicUserInfo {
     public void setRoles(List<String> roles) {
         this.roles = roles;
     }
+
+    @Override
+    public String toString() {
+        return "BasicUserInfo{" +
+                "login='" + login + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
 }

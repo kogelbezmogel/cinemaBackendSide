@@ -7,6 +7,7 @@ import com.cinema.bodies.ShowInfoIdTime;
 import com.cinema.service.ShowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -32,9 +33,9 @@ public class ShowController {
      * @return List of all shows in database.
      */
     @GetMapping("/show")
-    public List<Show> getAllShows() {
+    public ResponseEntity<List<Show>> getAllShows() {
         List<Show> shows = showService.findAll();
-        return shows;
+        return ResponseEntity.ok(shows);
     }
 
 
@@ -60,12 +61,13 @@ public class ShowController {
      * @return List of Shows
      */
     @GetMapping("/show/info/movie/range")
-    public List<ShowInfoIdTime> getShowInfoByMovieAndDate(
+    public ResponseEntity<List<ShowInfoIdTime>> getShowInfoByMovieAndDate(
             @RequestParam("movie_id") Long movie_id,
             @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
             @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
         System.out.println("Id: " + movie_id + " start: " + start.toString() + " end: " + end.toString());
-        return showService.getShowInfoByMovie(movie_id, start, end);
+        List<ShowInfoIdTime> showInfos = showService.getShowInfoByMovie(movie_id, start, end);
+        return ResponseEntity.ok(showInfos);
     }
 
 //    @GetMapping("/show/schedule/{room_id}/{date}")
@@ -88,12 +90,13 @@ public class ShowController {
      * @return List of Shows
      */
     @GetMapping("/show/schedule/select")
-    public List<Show> getShowByRoomAndDate(
+    public ResponseEntity<List<Show>> getShowByRoomAndDate(
             @RequestParam("room_id") Long room_id,
             @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
             @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
         System.out.println("Get: room_id(" + room_id + ") ( " + start.toString() + "-" + end.toString() + " )");
-        return showService.getShowsByRoomAndDate(room_id, start, end);
+        List<Show> shows = showService.getShowsByRoomAndDate(room_id, start, end);
+        return ResponseEntity.ok(shows);
     }
 
     /**
@@ -102,9 +105,10 @@ public class ShowController {
      * @return true if show added and false otherwise.
      */
     @PostMapping("/show/schedule/add")
-    public Boolean postShowInSchedule(@RequestBody BasicShowInfo newShow) {
+    public ResponseEntity<Boolean> postShowInSchedule(@RequestBody BasicShowInfo newShow) {
         System.out.println("Post: newShow " + newShow);
-        return showService.addShowInSchedule(newShow);
+        Boolean success =  showService.addShowInSchedule(newShow);
+        return ResponseEntity.ok(success);
     }
 
 

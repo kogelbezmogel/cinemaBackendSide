@@ -1,9 +1,11 @@
 package com.cinema.controller;
 
+import com.cinema.bodies.BasicShowInfo;
 import com.cinema.bodies.BasicSitsInfo;
 import com.cinema.model.Sit;
 import com.cinema.service.SitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,8 +32,9 @@ public class SitController {
      * @return List of all sits in database.
      */
     @GetMapping("/sit")
-    public List<Sit> getAllSits() {
-        return sitService.findAll();
+    public ResponseEntity<List<Sit>> getAllSits() {
+        List<Sit> sits = sitService.findAll();
+        return ResponseEntity.ok(sits);
     }
 
     /**
@@ -40,8 +43,9 @@ public class SitController {
      * @return List of sits.
      */
     @GetMapping("/sit/{room_id}")
-    public List<Sit> getAllSitsInRoom(@PathVariable("room_id") Long room_id) {
-        return sitService.getSitByRoom_Id(room_id);
+    public ResponseEntity<List<Sit>> getAllSitsInRoom(@PathVariable("room_id") Long room_id) {
+        List<Sit> sits = sitService.getSitByRoom_Id(room_id);
+        return ResponseEntity.ok(sits);
     }
 
     /**
@@ -50,8 +54,9 @@ public class SitController {
      * @return List of BasicSitsInfo.
      */
     @GetMapping("/sit/show/{id}")
-    public List<BasicSitsInfo> getBasicSitsInfoByShowId(@PathVariable("id") Long show_id) {
-        return sitService.getBasicSitsInfoByShowId(show_id);
+    public ResponseEntity<List<BasicSitsInfo>> getBasicSitsInfoByShowId(@PathVariable("id") Long show_id) {
+        List<BasicSitsInfo> sitsInfos = sitService.getBasicSitsInfoByShowId(show_id);
+        return ResponseEntity.ok(sitsInfos);
     }
 
 

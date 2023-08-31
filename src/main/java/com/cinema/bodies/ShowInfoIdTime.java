@@ -37,4 +37,12 @@ public class ShowInfoIdTime {
     public void setTime(LocalDateTime time) {
         this.time = time;
     }
+
+    @Override
+    public String toString() {
+        return "ShowInfoIdTime{" +
+                "id=" + id +
+                ", time=" + time +
+                '}';
+    }
 }

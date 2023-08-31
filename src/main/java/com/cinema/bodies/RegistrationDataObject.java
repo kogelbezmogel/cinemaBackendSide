@@ -63,8 +63,12 @@ public class RegistrationDataObject {
     @Override
     public String toString() {
         return "RegistrationDataObject{" +
-                "login='" + login + '\'' +
+                "fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
+                ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", mail='" + mail + '\'' +
                 '}';
     }
 }
