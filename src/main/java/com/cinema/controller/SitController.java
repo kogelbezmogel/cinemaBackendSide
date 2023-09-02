@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  * Sit Controller. It contains endpoints regarding information exchange regarding sits in theater rooms.
  */
 @RestController
+@RequestMapping("/sit")
 public class SitController {
 
     /**
@@ -31,7 +33,7 @@ public class SitController {
     /**
      * @return List of all sits in database.
      */
-    @GetMapping("/sit")
+    @GetMapping("/all")
     public ResponseEntity<List<Sit>> getAllSits() {
         List<Sit> sits = sitService.findAll();
         return ResponseEntity.ok(sits);
@@ -42,7 +44,7 @@ public class SitController {
      * @param room_id It is room id for which sits are looked for.
      * @return List of sits.
      */
-    @GetMapping("/sit/{room_id}")
+    @GetMapping("/room/{room_id}")
     public ResponseEntity<List<Sit>> getAllSitsInRoom(@PathVariable("room_id") Long room_id) {
         List<Sit> sits = sitService.getSitByRoom_Id(room_id);
         return ResponseEntity.ok(sits);
@@ -53,8 +55,8 @@ public class SitController {
      * @param show_id It is show id for which information is created.
      * @return List of BasicSitsInfo.
      */
-    @GetMapping("/sit/show/{id}")
-    public ResponseEntity<List<BasicSitsInfo>> getBasicSitsInfoByShowId(@PathVariable("id") Long show_id) {
+    @GetMapping("/show/{show_id}")
+    public ResponseEntity<List<BasicSitsInfo>> getBasicSitsInfoByShowId(@PathVariable("show_id") Long show_id) {
         List<BasicSitsInfo> sitsInfos = sitService.getBasicSitsInfoByShowId(show_id);
         return ResponseEntity.ok(sitsInfos);
     }

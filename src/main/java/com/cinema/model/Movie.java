@@ -16,6 +16,8 @@ public class Movie {
     @Column
     private Integer length_min;
     @Column
+    private Integer year;
+    @Column
     private String description;
     @Column(length = 255)
     private String image_url;
@@ -30,12 +32,12 @@ public class Movie {
 
     public Movie() { }
 
-    public Movie(Long id, String title, Integer length_min, String description, String image_url) {
-        this.id = id;
-        this.title = title;
-        this.length_min = length_min;
-        this.description = description;
-        this.image_url = image_url;
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
     }
 
     public String getImage_url() {

@@ -20,11 +20,6 @@ import org.springframework.web.util.WebUtils;
 
 import java.util.List;
 
-// Poprawki:
-// 1. Zmniejszyć powtarzalność kodu pomiędzy refresh, logout przez odelegowanie do reguserservice
-// 2. Ujednolicić refresh bo teraz .getRefreshToken usuwa z bazy danych token i musi być wykonany po .getLoginToken
-// 3. Wyłapywanie wyjątków dla getValue from Cookie
-// 4. Zmiana danych wysyłanych jako UserInfo czyli bez password i bez roles
 
 /**
  * It contains endpoints regarding auth and user data exchange.
@@ -63,7 +58,7 @@ public class RegisteredUserController {
      * @return User instance based on credentials in request.
      */
     @GetMapping("/info")
-    public ResponseEntity<RegisteredUser> getRegisteredUser( HttpServletRequest request ) {
+    public ResponseEntity<RegisteredUser> getRegisteredUserFromToken( HttpServletRequest request ) {
         String jwtToken = WebUtils.getCookie(request, "jwt-token").getValue();
         RegisteredUser user = registeredUserService.getUserInfo(jwtToken);
         return ResponseEntity.ok(user);
@@ -75,9 +70,21 @@ public class RegisteredUserController {
      * @return true after registration.
      */
     @PostMapping("/register")
-    public ResponseEntity<Boolean> registerUser(@RequestBody RegistrationDataObject registrationUserData ) {
+    public ResponseEntity<Boolean> registerUserToDatabase(@RequestBody RegistrationDataObject registrationUserData ) {
         registeredUserService.save(registrationUserData);
-        System.out.println("UserData: " + registrationUserData.toString());
+        return ResponseEntity.ok(true);
+    }
+
+    @GetMapping("/register/admin")
+    public ResponseEntity<Boolean> registerAdminToDatabase() {
+        RegistrationDataObject registrationDataObject = new RegistrationDataObject();
+        registrationDataObject.setLogin("admin");
+        registrationDataObject.setFname("Marian");
+        registrationDataObject.setLname("Kowalski");
+        registrationDataObject.setPassword("admin");
+        registrationDataObject.setPhone("543123321");
+        registrationDataObject.setMail("admin@mail.com");
+        registeredUserService.saveAdmin(registrationDataObject);
         return ResponseEntity.ok(true);
     }
 
@@ -146,7 +153,6 @@ public class RegisteredUserController {
         ResponseCookie jwtTokenCookie = ResponseCookie.from("jwt-token", jwtToken).path("/").maxAge(60*60*24).httpOnly(true).build();
         ResponseCookie jwtRefreshTokenCookie = ResponseCookie.from("jwt-token-refresh", jwtRefreshToken).path("/").maxAge(60*60*24).httpOnly(true).build();
 
-        System.out.println("Token refreshed");
         return ResponseEntity
                 .ok()
                 .header( HttpHeaders.SET_COOKIE, jwtTokenCookie.toString() )

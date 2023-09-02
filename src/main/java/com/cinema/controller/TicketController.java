@@ -13,6 +13,7 @@ import java.util.List;
  * It contains endpoint regarding information about tickets.
  */
 @RestController
+@RequestMapping("/ticket")
 public class TicketController {
 
 
@@ -29,7 +30,7 @@ public class TicketController {
     /**
      * @return List of all tickets in database
      */
-    @GetMapping("/ticket")
+    @GetMapping("/all")
     public ResponseEntity<List<Ticket>> getAllTickets() {
         List<Ticket> tickets = ticketService.findAll();
         return ResponseEntity.ok(tickets);
@@ -41,7 +42,7 @@ public class TicketController {
      * @param request It is body of post request essential for BuyTicketInfo class.
      * @return true if ticket bought and false otherwise.
      */
-    @PostMapping("/ticket/buy")
+    @PostMapping("/buy")
     public ResponseEntity<Boolean> setTicketsToShow(@RequestBody BuyTicketInfo request) {
         Boolean success = ticketService.setTicketsToShow( request );
         return ResponseEntity.ok(success);

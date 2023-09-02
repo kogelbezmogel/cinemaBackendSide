@@ -7,6 +7,7 @@ import com.cinema.bodies.ShowInfoIdTime;
 import com.cinema.service.ShowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ import java.util.List;
  * Chow Controller. It contains endpoints regarding information exchange about show displayed in theater.
  */
 @RestController
+@RequestMapping("/show")
 public class ShowController {
 
     /**
@@ -32,26 +34,11 @@ public class ShowController {
     /**
      * @return List of all shows in database.
      */
-    @GetMapping("/show")
+    @GetMapping("/all")
     public ResponseEntity<List<Show>> getAllShows() {
         List<Show> shows = showService.findAll();
         return ResponseEntity.ok(shows);
     }
-
-
-//    @GetMapping("/show/{date}")
-//    public List<BasicShowInfo> getShowsByDate(@PathVariable("date") LocalDate date) {
-//        return showService.getAllByDate(date);
-//    }
-
-//    @GetMapping("/show/times/movie/range")
-//    public List<String> getShowsByMovieAndDate(
-//            @RequestParam("movie_id") Long movie_id,
-//            @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-//            @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
-//        return showService.getShowTimesByMovie(movie_id, start, end);
-//    }
-
 
     /**
      * This endpoint look for shows of one movie in given time range.
@@ -60,27 +47,14 @@ public class ShowController {
      * @param end It is parameter in iso DateTime format representing end of scanned interval.
      * @return List of Shows
      */
-    @GetMapping("/show/info/movie/range")
+    @GetMapping("/info/movie/range")
     public ResponseEntity<List<ShowInfoIdTime>> getShowInfoByMovieAndDate(
             @RequestParam("movie_id") Long movie_id,
             @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
             @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
-        System.out.println("Id: " + movie_id + " start: " + start.toString() + " end: " + end.toString());
         List<ShowInfoIdTime> showInfos = showService.getShowInfoByMovie(movie_id, start, end);
         return ResponseEntity.ok(showInfos);
     }
-
-//    @GetMapping("/show/schedule/{room_id}/{date}")
-//    public List<Show> getShowByRoomAndDate(@PathVariable("room_id") Long room_id, @PathVariable("date") Date day ) {
-//        return null;
-//        //return showService.getShowsByRoomAndDate(room_id, day);
-//    }
-
-//    @GetMapping("/show/schedule/select")
-//    public List<Show> getShowByRoomAndDate(@RequestParam("room_id") Long room_id, @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date ) {
-//        System.out.println("Get: room_id(" + room_id + ") date( " + date + " )");
-//        return showService.getShowsByRoomAndDate(room_id, date);
-//    }
 
     /**
      * This endpoint look for shows displayed in given room.
@@ -89,12 +63,11 @@ public class ShowController {
      * @param end It is parameter in iso DateTime format representing end of scanned interval.
      * @return List of Shows
      */
-    @GetMapping("/show/schedule/select")
+    @GetMapping("/schedule/select")
     public ResponseEntity<List<Show>> getShowByRoomAndDate(
             @RequestParam("room_id") Long room_id,
             @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
             @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
-        System.out.println("Get: room_id(" + room_id + ") ( " + start.toString() + "-" + end.toString() + " )");
         List<Show> shows = showService.getShowsByRoomAndDate(room_id, start, end);
         return ResponseEntity.ok(shows);
     }
@@ -104,10 +77,16 @@ public class ShowController {
      * @param newShow It is show info taken as a body of post request.
      * @return true if show added and false otherwise.
      */
-    @PostMapping("/show/schedule/add")
+    @PostMapping("/schedule/add")
     public ResponseEntity<Boolean> postShowInSchedule(@RequestBody BasicShowInfo newShow) {
-        System.out.println("Post: newShow " + newShow);
-        Boolean success =  showService.addShowInSchedule(newShow);
+        Boolean success = showService.addShowInSchedule(newShow);
+        return ResponseEntity.ok(success);
+    }
+
+
+    @GetMapping("/delete/{show_id}")
+    public ResponseEntity<Boolean> deleteShowFromRepertoire(@PathVariable("show_id") Long show_id) {
+        Boolean success = showService.deleteShow(show_id);
         return ResponseEntity.ok(success);
     }
 

@@ -51,6 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfiguration {
                             "/hello",
                             "/user/login",
                             "/user/register",
+                            "/user/register/admin",
                             "/user/logout",
                             "/user/refresh",
                             "/user/available/**",

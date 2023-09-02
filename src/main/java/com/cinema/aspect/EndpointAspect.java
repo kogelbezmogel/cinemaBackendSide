@@ -22,7 +22,7 @@ public class EndpointAspect {
     public void beforeAdvice(JoinPoint joinPoint){
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 
-        LOGGER.info("Endpoint invoked: {}", signature.getMethod());
+        LOGGER.info("Endpoint invoked: {}", signature.getMethod().getName());
         LOGGER.info("Received {} arguments", joinPoint.getArgs().length);
         Arrays.stream(joinPoint.getArgs()).forEach(o -> LOGGER.info("Arg: {}", o.toString()));
     }

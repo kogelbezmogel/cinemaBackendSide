@@ -24,6 +24,7 @@ for i in range(15, num_pages+1):
     pages_of_data.append( resp['results'] )
 pickle.dump( pages_of_data, open("./data.pickle", "wb") )
 pages_of_data = pickle.load( open("./data.pickle", "rb") )
+#print( pages_of_data[0][0] )
 
 
 # extracting neccessery data
@@ -39,7 +40,8 @@ for page in range(10-1, -1, -1):
             'title' : response[result]['titleText']['text'],
             'plot' : response[result]['plot']['plotText']['plainText'],
             'runtime' : int(response[result]['runtime']['seconds']) // 60,
-            'genres' : [ gen['text'] for gen in response[result]['genres']['genres'] ],   
+            'genres' : [ gen['text'] for gen in response[result]['genres']['genres'] ],
+            'year' : response[result]['releaseDate']['year']   
         }
 
         for gen in response[result]['genres']['genres']:

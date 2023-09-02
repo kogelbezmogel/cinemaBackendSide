@@ -14,6 +14,7 @@ import java.util.List;
  * Movie Controller. It contains endpoints regarding information exchange about movies in database.
  */
 @RestController
+@RequestMapping("/movie")
 public class MovieController {
 
     /**
@@ -30,7 +31,7 @@ public class MovieController {
      * It takes no arguments
      * @return List of all movies in database
      */
-    @GetMapping("/movie/all")
+    @GetMapping("/all")
     public ResponseEntity<List<Movie>> getAllMovies() {
         List<Movie> movies = movieService.findAll();
         return  ResponseEntity.ok(movies);
@@ -42,8 +43,8 @@ public class MovieController {
      * @param end It is parameter in iso DateTime format representing end of scanned interval
      * @return Return List of movies that are played between time range from start to end parameters.
      */
-    @GetMapping("/movie/range")
-    public ResponseEntity<List<Movie>> getMoviesByDate(
+    @GetMapping("/range")
+    public ResponseEntity<List<Movie>> getMoviesByTimeRange(
             @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
             @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
         System.out.println("Movie range request with range: " + start.toString() + " - " + end.toString());

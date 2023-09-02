@@ -5,14 +5,14 @@ import pickle
 genres = pickle.load( open("./genres.pickle", "rb") )
 data = pickle.load( open('./top250_processed_data.pickle', 'rb') )
 
-statement_m = f"INSERT INTO movies(title, length_min, description, image_url) VALUES "
+statement_m = f"INSERT INTO movies(title, year, length_min, description, image_url) VALUES "
 statement_g = f"INSERT INTO genres(genre) VALUES "
 statement_mg= f"INSERT INTO movies_genres(movie_id, genre_id) VALUES "
 
 statement_fetch_movie_id = "SELECT m.id FROM movies AS m WHERE m.title = "
 statement_fetch_genre_id = "SELECT g.id FROM genres AS g WHERE g.genre = "
 
-
+#print( data[0] )
 for movie in data:
     movie['title'] = movie['title'].replace("'", "''")
     movie['plot'] = movie['plot'].replace("'", "''")
@@ -22,7 +22,7 @@ for gen in genres:
 statement_g = statement_g[:-2] + ';'
 
 for movie in data:
-    statement_m += f"('{movie['title']}', {movie['runtime']}, '{movie['plot']}', '{movie['imageUrl']}'), "
+    statement_m += f"('{movie['title']}', {movie['year']},  {movie['runtime']}, '{movie['plot']}', '{movie['imageUrl']}'), "
 statement_m = statement_m[:-2] + ';'
 
 conn = psycopg2.connect( "postgres://aluzesfv:EZVwscQXajHKJ7S5Phw5P7ohF7plSYyL@dumbo.db.elephantsql.com/aluzesfv" )

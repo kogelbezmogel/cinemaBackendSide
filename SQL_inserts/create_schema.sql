@@ -106,6 +106,7 @@ CREATE TABLE tickets(
                         id BIGSERIAL PRIMARY KEY,
                         show_id BIGINT,
                         sit_id BIGINT,
+                        user_id BIGINT,
                         buyer_fname VARCHAR(60),
                         buyer_lname VARCHAR(60),
                         buyer_mail VARCHAR(60),

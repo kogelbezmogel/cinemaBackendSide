@@ -71,13 +71,16 @@ public class RegisteredUserService implements  RegisteredUserServiceInterface{
         Role role2 = roleRepository.findRolesByRole("USER");
 
         registeredUser.setLogin( user.getLogin() );
+        registeredUser.setFname( user.getFname() );
+        registeredUser.setLname( user.getLname() );
+        registeredUser.setMail(  user.getMail() );
         registeredUser.setPassword( passwordEncoder.encode(user.getPassword()) );
         registeredUser.setPhone( user.getPhone() );
         registeredUser.setRoles( List.of( role1, role2 ) );
-
         registeredUserRepository.save( registeredUser );
         return true;
     }
+
 
     @Override
     public String getLoginToken(LoginDataObject loginDataObject) {

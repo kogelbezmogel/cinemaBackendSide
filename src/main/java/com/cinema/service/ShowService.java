@@ -121,6 +121,12 @@ public class ShowService {
     }
 
 
+    public Boolean deleteShow(Long show_id) {
+        showRepository.deleteById(show_id);
+        return true;
+    }
+
+
     public Boolean checkIfShowCollide(Show newShow, List<Show> shows) {
 
         Boolean collide = false;

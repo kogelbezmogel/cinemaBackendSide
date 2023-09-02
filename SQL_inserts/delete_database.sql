@@ -1,7 +1,7 @@
 DELETE FROM registered_users_roles;
+DELETE FROM refresh_tokens;
 DELETE FROM registered_users;
 DELETE FROM roles;
-
 DELETE FROM movies_genres;
 DELETE FROM tickets;
 DELETE FROM sits;
@@ -12,6 +12,7 @@ DELETE FROM genres;
 
 DROP SEQUENCE registered_users_seq;
 DROP TABLE registered_users_roles;
+DROP TABLE refresh_tokens;
 DROP TABLE registered_users;
 DROP TABLE roles;
 
