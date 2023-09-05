@@ -2,6 +2,7 @@ package com.cinema.service;
 
 import com.cinema.bodies.LoginDataObject;
 import com.cinema.bodies.RegistrationDataObject;
+import com.cinema.bodies.UpdateUserDataObject;
 import com.cinema.model.*;
 import com.cinema.repository.RefreshTokenRepository;
 import com.cinema.repository.RegisteredUserRepository;
@@ -179,5 +180,19 @@ public class RegisteredUserService implements  RegisteredUserServiceInterface{
     public Boolean mailAvailable(String mail) {
         Optional<RegisteredUser> maybe_user = registeredUserRepository.findRegisteredUserByMail(mail);
         return maybe_user.isEmpty();
+    }
+
+    @Transactional
+    public Boolean updateUserData(UpdateUserDataObject userData) {
+        Boolean success = false;
+        Optional<RegisteredUser> user = registeredUserRepository.findRegisteredUserByLogin( userData.getLogin() );
+        RegistrationDataObject userDataToUpdate;
+
+        if(user.isPresent()) {
+            userDataToUpdate = userData.getDataToUpdate();
+            System.out.println("Altering user: " + userDataToUpdate.toString());
+            success = true;
+        }
+        return success;
     }
 }

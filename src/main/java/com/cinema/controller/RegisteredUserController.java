@@ -4,6 +4,7 @@ package com.cinema.controller;
 import com.cinema.bodies.BasicUserInfo;
 import com.cinema.bodies.LoginDataObject;
 import com.cinema.bodies.RegistrationDataObject;
+import com.cinema.bodies.UpdateUserDataObject;
 import com.cinema.model.*;
 import com.cinema.service.JwtServiceInterface;
 import com.cinema.service.RegisteredUserServiceInterface;
@@ -221,6 +222,13 @@ public class RegisteredUserController {
         JSONObject mail_j = new JSONObject(req_body);
         String mail = mail_j.getString("mail");
         Boolean success = registeredUserService.mailAvailable(mail);
+        return ResponseEntity.ok(success);
+    }
+
+
+    @PostMapping("/update")
+    public ResponseEntity<Boolean> updateUserData(@RequestBody UpdateUserDataObject userData) {
+        Boolean success = registeredUserService.updateUserData(userData);
         return ResponseEntity.ok(success);
     }
 }

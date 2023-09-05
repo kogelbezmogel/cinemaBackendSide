@@ -46,22 +46,15 @@ public class ShowService {
     }
 
 
-//    public List<String> getShowTimesByMovie( Long movie_id, LocalDateTime start, LocalDateTime end ) {
-//        List<String> timeStringList = showRepository.getShowTimesByMovie(movie_id, start, end);
-//        timeStringList = timeStringList.stream().map( time -> time.substring(11, 16) ).toList();
-//        return timeStringList;
-//    }
-
-
     public List<ShowInfoIdTime> getShowInfoByMovie(Long movie_id, LocalDateTime start, LocalDateTime end) {
-        return showRepository.getShowInfoByMovie(movie_id, start, end);
+        List<ShowInfoIdTime> shows = showRepository.getShowInfoByMovie(movie_id, start, end);
+        System.out.println("Shows: " + shows);
+        shows = shows.stream().sorted(Comparator.comparing(ShowInfoIdTime::getTime)).collect(Collectors.toList());
+        return shows;
     }
 
 
     public List<Show> getShowsByRoomAndDate(Long room_id, LocalDateTime shift_start, LocalDateTime shift_end) {
-
-//        LocalDateTime shift_start = LocalDateTime.of(day, LocalTime.of(12, 0));
-//        LocalDateTime shift_end   = LocalDateTime.of(day.plusDays(1), LocalTime.of(4, 0));
         LocalDateTime shift_now = shift_start;
 
         System.out.println("Searching range: " + shift_start + "  -  " + shift_end);

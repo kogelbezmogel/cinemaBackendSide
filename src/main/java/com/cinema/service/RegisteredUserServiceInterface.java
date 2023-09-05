@@ -1,6 +1,7 @@
 package com.cinema.service;
 
 import com.cinema.bodies.LoginDataObject;
+import com.cinema.bodies.UpdateUserDataObject;
 import com.cinema.model.RegisteredUser;
 import com.cinema.bodies.RegistrationDataObject;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,6 +10,7 @@ import java.util.List;
 
 public interface RegisteredUserServiceInterface extends UserDetailsService {
 
+    public Boolean updateUserData(UpdateUserDataObject userData);
     public Boolean save(RegistrationDataObject user);
 
     public Boolean saveAdmin(RegistrationDataObject user);

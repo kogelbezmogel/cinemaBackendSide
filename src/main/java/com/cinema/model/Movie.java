@@ -2,7 +2,7 @@ package com.cinema.model;
 
 import jakarta.persistence.*;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table( name = "movies" )
@@ -28,7 +28,7 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
-    private Set<Genre> genres;
+    private List<Genre> genres;
 
     public Movie() { }
 
@@ -80,11 +80,11 @@ public class Movie {
         return description;
     }
 
-    public Set<Genre> getGenres() {
+    public List<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(Set<Genre> genres) {
+    public void setGenres(List<Genre> genres) {
         this.genres = genres;
     }
 }

@@ -84,6 +84,11 @@ public class ShowController {
     }
 
 
+    /**
+     *
+     * @param show_id
+     * @return
+     */
     @GetMapping("/delete/{show_id}")
     public ResponseEntity<Boolean> deleteShowFromRepertoire(@PathVariable("show_id") Long show_id) {
         Boolean success = showService.deleteShow(show_id);
